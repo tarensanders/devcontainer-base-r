@@ -1,0 +1,65 @@
+{
+  "name": "r-base",
+  "image": "ghcr.io/rocker-org/devcontainer/r-ver:4",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
+      "packages": "languageserver,tidyverse,targets,tarchetypes,gt,gtsummary,janitor,glue,here,qs2,conflicted,rmarkdown,knitr,devtools,github::milesmcbain/fnmate,github::milesmcbain/tflow",
+      "installSystemRequirements": true
+    },
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
+    "ghcr.io/rocker-org/devcontainer-features/quarto-cli:1": {},
+    "ghcr.io/rocker-org/devcontainer-features/r-history:0": {}
+  },
+  "overrideFeatureInstallOrder": [
+    "ghcr.io/devcontainers/features/node"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "REditorSupport.r",
+        "RDebugger.r-debugger",
+        "Posit.air-vscode",
+        "quarto.quarto",
+        "yzhang.markdown-all-in-one",
+        "DavidAnson.vscode-markdownlint",
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "ms-toolsai.jupyter",
+        "christian-kohler.path-intellisense",
+        "mechatroner.rainbow-csv",
+        "tomoki1207.pdf",
+        "redhat.vscode-yaml",
+        "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-australian-english",
+        "streetsidesoftware.code-spell-checker-scientific-terms",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "GitHub.vscode-pull-request-github",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "[r]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "Posit.air-vscode"
+        },
+        "[quarto]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "quarto.quarto"
+        },
+        "[python]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "charliermarsh.ruff"
+        },
+        "[markdown]": {
+          "editor.formatOnSave": true
+        },
+        "r.rterm.linux": "/usr/local/bin/radian",
+        "r.bracketedPaste": true,
+        "cSpell.language": "en,en-AU",
+        "files.eol": "\n"
+      }
+    }
+  }
+}

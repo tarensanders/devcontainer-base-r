@@ -1,0 +1,40 @@
+# R
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+.Renviron
+
+# renv
+renv/library/
+renv/staging/
+renv/.python/
+renv/sandbox/
+
+# targets
+_targets/
+
+# Quarto
+/_site/
+/.quarto/
+*_files/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.fuse_hidden*
+.Trash-*
+.nfs*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+.docker/
