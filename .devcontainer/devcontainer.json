@@ -4,7 +4,7 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
-      "packages": "languageserver,tidyverse,targets,tarchetypes,gt,gtsummary,janitor,glue,here,qs2,conflicted,rmarkdown,knitr,devtools,github::milesmcbain/fnmate,github::milesmcbain/tflow",
+      "packages": "conflicted,crew,data.table,foreign,devtools,dotenv,glue,gt,gtsummary,here,janitor,knitr,languageserver,qs2,readxl,rlang,rmarkdown,rstudioapi,tarchetypes,targets,tidyverse,visNetwork,github::milesmcbain/fnmate,github::milesmcbain/tflow",
       "installSystemRequirements": true
     },
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
