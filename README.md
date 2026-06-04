@@ -47,7 +47,7 @@ From GitHub: `milesmcbain/fnmate`, `milesmcbain/tflow`
 | `Posit.air-vscode` | Air R formatter (default R formatter) |
 | `quarto.quarto` | Quarto document support |
 | `anthropic.claude-code` | Claude Code |
-| `GitHub.copilot` | GitHub Copilot |
+| `GitHub.copilot` + `copilot-chat` | GitHub Copilot |
 | `GitHub.vscode-pull-request-github` | GitHub Pull Requests |
 | `ms-python.python` + `charliermarsh.ruff` | Python support with Ruff formatter |
 | `ms-toolsai.jupyter` | Jupyter notebooks |
