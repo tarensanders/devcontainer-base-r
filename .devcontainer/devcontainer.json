@@ -8,7 +8,11 @@
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
       "packages": "broom,broom.helpers,conflicted,crew,data.table,devtools,dotenv,foreign,glue,gt,gtsummary,here,janitor,knitr,languageserver,lintr,qs2,readxl,rlang,rmarkdown,rstudioapi,shiny,shinyWidgets,shinybusy,tarchetypes,targets,tidyverse,visNetwork,github::milesmcbain/fnmate,github::milesmcbain/tflow",
-      "installSystemRequirements": true
+      "installSystemRequirements": true,
+      // "stable" forces a current pak before installing packages. The pak bundled
+      // in the frozen r-ver:4.5 image is old enough that pak::pak() upgrades pak
+      // itself mid-run, corrupting its own private library and failing the build.
+      "pakVersion": "stable"
     },
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
     "ghcr.io/rocker-org/devcontainer-features/quarto-cli:1": {},
