@@ -1,6 +1,9 @@
 {
   "name": "r-base",
-  "image": "ghcr.io/rocker-org/devcontainer/r-ver:4",
+  // Pinned to 4.5: R 4.6 breaks the vscode-R session watcher, so htmlwidgets/plots
+  // fall back to xdg-open (REditorSupport/vscode-R#1696). Revert to :4 once
+  // vscode-R 3.0.0 is released as stable.
+  "image": "ghcr.io/rocker-org/devcontainer/r-ver:4.5",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
