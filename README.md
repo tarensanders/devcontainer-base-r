@@ -106,5 +106,11 @@ For reproducible artefacts, pin by digest rather than `:latest`.
 - **Extensions and settings are inherited** from the base image's
   `devcontainer.metadata` label. Projects should not repeat the extensions
   list or settings block — doing so causes drift when the base updates.
+- **Claude Code login persists across rebuilds.** The base image sets
+  `CLAUDE_CONFIG_DIR=/home/rstudio/.claude`, so all Claude Code state
+  (including `.claude.json`, which otherwise lives outside `~/.claude`)
+  lands in the volume mounted at `/home/rstudio/.claude`. Each project's
+  volume is keyed by `${devcontainerId}`, so you authenticate once per
+  project, not once per rebuild.
 - **The image is rebuilt weekly** (Mondays 00:00 UTC) and on every push to
   `main`. Pin by digest for reproducibility.

@@ -21,6 +21,12 @@
   "overrideFeatureInstallOrder": [
     "ghcr.io/devcontainers/features/node"
   ],
+  "containerEnv": {
+    // Claude Code stores login state in ~/.claude.json, outside ~/.claude, so a
+    // volume mounted at ~/.claude alone doesn't survive rebuilds. Pointing
+    // CLAUDE_CONFIG_DIR at ~/.claude relocates all state into the mount.
+    "CLAUDE_CONFIG_DIR": "/home/rstudio/.claude"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
