@@ -8,20 +8,38 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write  # release creation for build notifications
   packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/r-base
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: docker/login-action@v3
+      - uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Weekly no-cache rebuilds always produce a new digest even when no
+      # package versions changed, so the digest alone can't tell us whether
+      # a build is meaningful. Instead, diff the installed R package versions
+      # between the previously published image and the new one.
+      - name: Snapshot published package versions
+        run: |
+          if docker pull --quiet "$IMAGE:latest"; then
+            docker run --rm "$IMAGE:latest" Rscript -e \
+              'v <- installed.packages()[, c("Package", "Version")]; cat(sprintf("%s %s\n", v[, 1], v[, 2]))' \
+              | sort > /tmp/packages-before.txt
+            docker image rm "$IMAGE:latest"
+          else
+            : > /tmp/packages-before.txt
+          fi
 
       - uses: devcontainers/ci@v0.3
         with:
@@ -29,3 +47,34 @@ jobs:
           cacheFrom: ghcr.io/${{ github.repository_owner }}/r-base
           push: always
           noCache: ${{ github.event_name != 'push' }}
+
+      - name: Compare against new image
+        id: diff
+        run: |
+          docker pull --quiet "$IMAGE:latest"
+          docker run --rm "$IMAGE:latest" Rscript -e \
+            'v <- installed.packages()[, c("Package", "Version")]; cat(sprintf("%s %s\n", v[, 1], v[, 2]))' \
+            | sort > /tmp/packages-after.txt
+          echo "digest=$(docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE:latest")" >> "$GITHUB_OUTPUT"
+          if diff -u /tmp/packages-before.txt /tmp/packages-after.txt > /tmp/packages.diff; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # A release both notifies watchers and records the digest for pinning.
+      - name: Create release for changed build
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="build-$(date -u +%Y-%m-%d)-${{ github.run_number }}"
+          {
+            echo "New image: \`${{ steps.diff.outputs.digest }}\`"
+            echo
+            echo "R package changes since the previous build:"
+            echo '```diff'
+            cat /tmp/packages.diff
+            echo '```'
+          } > /tmp/notes.md
+          gh release create "$tag" --title "$tag" --notes-file /tmp/notes.md

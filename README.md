@@ -83,6 +83,19 @@ the base image's `devcontainer.metadata` label — do not repeat them here.
 }
 ```
 
+## Updating an existing project to the latest image
+
+Rebuilding a devcontainer reuses the locally cached image — it does not
+check GHCR for a newer one. To pick up a new base image in a project:
+
+```sh
+docker pull ghcr.io/tarensanders/r-base:latest
+```
+
+Then in VS Code run **Dev Containers: Rebuild Container** from the Command
+Palette (`Ctrl+Shift+P`). Claude Code login and R history survive the
+rebuild — they live in named volumes, not the container.
+
 ## Using the image in CI
 
 The published image is a normal Docker image and can be used directly in
@@ -114,3 +127,8 @@ For reproducible artefacts, pin by digest rather than `:latest`.
   project, not once per rebuild.
 - **The image is rebuilt weekly** (Mondays 00:00 UTC) and on every push to
   `main`. Pin by digest for reproducibility.
+- **A GitHub Release is created whenever a build changes R package
+  versions**, listing the new digest and a diff of the changes. Watch the
+  repo's releases to be notified when it's worth re-pulling the image.
+  Weekly rebuilds where nothing changed still push a new digest (no-cache
+  builds are not byte-reproducible) but create no release.
