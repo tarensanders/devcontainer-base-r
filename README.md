@@ -34,7 +34,7 @@ R 4.5 via [`rocker/r-ver:4.5`](https://rocker-project.org/), which includes R, r
 
 ### R packages
 
-Standard CRAN packages: `broom`, `broom.helpers`, `conflicted`, `crew`, `data.table`, `devtools`, `dotenv`, `foreign`, `glue`, `gt`, `gtsummary`, `here`, `janitor`, `knitr`, `languageserver`, `qs2`, `readxl`, `rlang`, `rmarkdown`, `rstudioapi`, `shiny`, `shinyWidgets`, `shinybusy`, `tarchetypes`, `targets`, `tidyverse`, `visNetwork`
+Standard CRAN packages: `broom`, `broom.helpers`, `broom.mixed`, `bslib`, `conflicted`, `crew`, `data.table`, `devtools`, `dotenv`, `DT`, `foreign`, `glue`, `gt`, `gtsummary`, `here`, `janitor`, `knitr`, `labelled`, `languageserver`, `lavaan`, `lintr`, `lme4`, `lmerTest`, `markdown`, `qs2`, `quarto`, `readxl`, `rlang`, `rmarkdown`, `rstudioapi`, `shiny`, `shinyWidgets`, `shinybusy`, `tarchetypes`, `targets`, `tidyverse`, `visNetwork`
 
 From GitHub: `milesmcbain/fnmate`, `milesmcbain/tflow`
 
