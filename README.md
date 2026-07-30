@@ -31,6 +31,9 @@ R 4.5 via [`rocker/r-ver:4.5`](https://rocker-project.org/), which includes R, r
 | Quarto CLI | Quarto document rendering |
 | Claude Code | Anthropic Claude Code CLI and VS Code extension |
 | R history | Persistent R console history across container rebuilds |
+| GitHub CLI | `gh` for PRs, issues, releases, and API calls |
+| Docker (outside-of-docker) | `docker` CLI talking to the host daemon via the mounted socket |
+| Shell utilities | `jq`, `ripgrep` (`rg`), `fd-find` (`fdfind`), `bat` (`batcat`), `tree`, `htop` |
 
 ### R packages
 
@@ -55,6 +58,7 @@ From GitHub: `milesmcbain/fnmate`, `milesmcbain/tflow`
 | `streetsidesoftware.code-spell-checker` | Spell checker (Australian English + scientific terms) |
 | `redhat.vscode-yaml` | YAML support |
 | `mechatroner.rainbow-csv` | CSV highlighting |
+| `janisdd.vscode-edit-csv` | CSV table editor |
 | `tomoki1207.pdf` | PDF viewer |
 | `christian-kohler.path-intellisense` | Path autocomplete |
 | `ms-azuretools.vscode-docker` | Docker support |
@@ -76,7 +80,8 @@ the base image's `devcontainer.metadata` label — do not repeat them here.
     }
   },
   "mounts": [
-    "source=claude-code-config-${devcontainerId},target=/home/rstudio/.claude,type=volume"
+    "source=claude-code-config-${devcontainerId},target=/home/rstudio/.claude,type=volume",
+    "source=gh-config-${devcontainerId},target=/home/rstudio/.gh,type=volume"
     // Uncomment for projects that mount external data:
     // ,"source=${localEnv:DATA_DIR},target=/workspace/data,type=bind"
   ]
@@ -125,6 +130,13 @@ For reproducible artefacts, pin by digest rather than `:latest`.
   lands in the volume mounted at `/home/rstudio/.claude`. Each project's
   volume is keyed by `${devcontainerId}`, so you authenticate once per
   project, not once per rebuild.
+- **GitHub CLI login persists across rebuilds** the same way. The base
+  image sets `GH_CONFIG_DIR=/home/rstudio/.gh`, so the token written by
+  `gh auth login` (the device-code flow works inside the container) lands
+  in the volume mounted at `/home/rstudio/.gh`. Note that plain
+  `git push`/`pull` needs none of this — VS Code forwards your host git
+  credentials and SSH agent automatically; `gh` auth is only for API
+  operations (PRs, releases, etc.).
 - **The image is rebuilt weekly** (Mondays 00:00 UTC) and on every push to
   `main`. Pin by digest for reproducibility.
 - **A GitHub Release is created whenever a build changes R package

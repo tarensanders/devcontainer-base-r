@@ -16,7 +16,15 @@
     },
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
     "ghcr.io/rocker-org/devcontainer-features/quarto-cli:1": {},
-    "ghcr.io/rocker-org/devcontainer-features/r-history:0": {}
+    "ghcr.io/rocker-org/devcontainer-features/r-history:0": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    // Docker CLI talking to the host daemon via the mounted socket. The mount
+    // is contributed by the feature's metadata and propagates downstream.
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    // Ubuntu installs fd-find as `fdfind` and bat as `batcat`.
+    "ghcr.io/devcontainers-extra/features/apt-packages:1": {
+      "packages": "jq,ripgrep,fd-find,bat,tree,htop"
+    }
   },
   "overrideFeatureInstallOrder": [
     "ghcr.io/devcontainers/features/node"
@@ -25,7 +33,10 @@
     // Claude Code stores login state in ~/.claude.json, outside ~/.claude, so a
     // volume mounted at ~/.claude alone doesn't survive rebuilds. Pointing
     // CLAUDE_CONFIG_DIR at ~/.claude relocates all state into the mount.
-    "CLAUDE_CONFIG_DIR": "/home/rstudio/.claude"
+    "CLAUDE_CONFIG_DIR": "/home/rstudio/.claude",
+    // gh stores its OAuth token in hosts.yml under this dir. Pointing it at a
+    // dedicated path lets projects persist login in a volume, same as Claude.
+    "GH_CONFIG_DIR": "/home/rstudio/.gh"
   },
   "customizations": {
     "vscode": {
