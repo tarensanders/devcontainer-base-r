@@ -27,18 +27,23 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Weekly no-cache rebuilds always produce a new digest even when no
-      # package versions changed, so the digest alone can't tell us whether
-      # a build is meaningful. Instead, diff the installed R package versions
-      # between the previously published image and the new one.
-      - name: Snapshot published package versions
+      # versions changed, so the digest alone can't tell us whether a build
+      # is meaningful. Instead, snapshot tool versions (Claude Code, Quarto,
+      # gh, Node, R, ...) plus installed R packages from the previously
+      # published image and diff against the new one. Debian packages are
+      # snapshotted too but only shown in release notes, never a trigger —
+      # see .github/scripts/manifest.sh.
+      - name: Snapshot published versions
         run: |
+          mkdir -p /tmp/before /tmp/after
           if docker pull --quiet "$IMAGE:latest"; then
-            docker run --rm "$IMAGE:latest" Rscript -e \
-              'v <- installed.packages()[, c("Package", "Version")]; cat(sprintf("%s %s\n", v[, 1], v[, 2]))' \
-              | sort > /tmp/packages-before.txt
+            docker run --rm \
+              -v "$PWD/.github/scripts:/scripts:ro" -v /tmp/before:/out \
+              "$IMAGE:latest" bash /scripts/manifest.sh /out
             docker image rm "$IMAGE:latest"
           else
-            : > /tmp/packages-before.txt
+            : > /tmp/before/signal.txt
+            : > /tmp/before/system.txt
           fi
 
       - uses: devcontainers/ci@v0.3
@@ -52,15 +57,16 @@ jobs:
         id: diff
         run: |
           docker pull --quiet "$IMAGE:latest"
-          docker run --rm "$IMAGE:latest" Rscript -e \
-            'v <- installed.packages()[, c("Package", "Version")]; cat(sprintf("%s %s\n", v[, 1], v[, 2]))' \
-            | sort > /tmp/packages-after.txt
+          docker run --rm \
+            -v "$PWD/.github/scripts:/scripts:ro" -v /tmp/after:/out \
+            "$IMAGE:latest" bash /scripts/manifest.sh /out
           echo "digest=$(docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE:latest")" >> "$GITHUB_OUTPUT"
-          if diff -u /tmp/packages-before.txt /tmp/packages-after.txt > /tmp/packages.diff; then
+          if diff -u /tmp/before/signal.txt /tmp/after/signal.txt > /tmp/signal.diff; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+          diff -u /tmp/before/system.txt /tmp/after/system.txt > /tmp/system.diff || true
 
       # A release both notifies watchers and records the digest for pinning.
       - name: Create release for changed build
@@ -72,9 +78,24 @@ jobs:
           {
             echo "New image: \`${{ steps.diff.outputs.digest }}\`"
             echo
-            echo "R package changes since the previous build:"
+            echo "Tool and R package changes since the previous build:"
             echo '```diff'
-            cat /tmp/packages.diff
+            cat /tmp/signal.diff
             echo '```'
+            echo
+            echo '<details><summary>System (Debian) package changes</summary>'
+            echo
+            echo '```diff'
+            if [ -s /tmp/system.diff ]; then
+              head -300 /tmp/system.diff
+              if [ "$(wc -l < /tmp/system.diff)" -gt 300 ]; then
+                echo "... truncated ($(wc -l < /tmp/system.diff) lines total)"
+              fi
+            else
+              echo "none"
+            fi
+            echo '```'
+            echo
+            echo '</details>'
           } > /tmp/notes.md
           gh release create "$tag" --title "$tag" --notes-file /tmp/notes.md

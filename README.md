@@ -139,8 +139,11 @@ For reproducible artefacts, pin by digest rather than `:latest`.
   operations (PRs, releases, etc.).
 - **The image is rebuilt weekly** (Mondays 00:00 UTC) and on every push to
   `main`. Pin by digest for reproducibility.
-- **A GitHub Release is created whenever a build changes R package
-  versions**, listing the new digest and a diff of the changes. Watch the
-  repo's releases to be notified when it's worth re-pulling the image.
+- **A GitHub Release is created whenever a build changes tool or R package
+  versions** — tools being Claude Code, Quarto, gh, Node, R, radian, and
+  the docker CLI. The release lists the new digest and a diff of the
+  changes; system (Debian) package changes are included for context but do
+  not trigger a release on their own. Watch the repo's releases to be
+  notified when it's worth re-pulling the image.
   Weekly rebuilds where nothing changed still push a new digest (no-cache
   builds are not byte-reproducible) but create no release.
