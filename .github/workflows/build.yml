@@ -46,17 +46,26 @@ jobs:
             : > /tmp/before/system.txt
           fi
 
+      # push: never — with push: always the action defers the push to its
+      # post-run step, which executes AFTER the steps below. The compare
+      # step's old `docker pull` then re-tagged :latest back to the previous
+      # registry image, so the diff saw nothing and the post-run step
+      # re-published the OLD image, silently discarding the new build.
       - uses: devcontainers/ci@v0.3
         with:
           imageName: ghcr.io/${{ github.repository_owner }}/r-base
           cacheFrom: ghcr.io/${{ github.repository_owner }}/r-base
-          push: always
+          push: never
           noCache: ${{ github.event_name != 'push' }}
 
+      - name: Push image
+        run: docker push "$IMAGE:latest"
+
+      # No docker pull here: the freshly built image is already the local
+      # :latest, and pulling would re-tag it back to the registry version.
       - name: Compare against new image
         id: diff
         run: |
-          docker pull --quiet "$IMAGE:latest"
           docker run --rm \
             -v "$PWD/.github/scripts:/scripts:ro" -v /tmp/after:/out \
             "$IMAGE:latest" bash /scripts/manifest.sh /out
