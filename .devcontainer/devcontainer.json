@@ -23,7 +23,7 @@
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
     // Ubuntu installs fd-find as `fdfind` and bat as `batcat`.
     "ghcr.io/devcontainers-extra/features/apt-packages:1": {
-      "packages": "jq,ripgrep,fd-find,bat,tree,htop"
+      "packages": "jq,ripgrep,fd-find,bat,tree,htop,tmux"
     }
   },
   "overrideFeatureInstallOrder": [

@@ -33,7 +33,7 @@ R 4.5 via [`rocker/r-ver:4.5`](https://rocker-project.org/), which includes R, r
 | R history | Persistent R console history across container rebuilds |
 | GitHub CLI | `gh` for PRs, issues, releases, and API calls |
 | Docker (outside-of-docker) | `docker` CLI talking to the host daemon via the mounted socket |
-| Shell utilities | `jq`, `ripgrep` (`rg`), `fd-find` (`fdfind`), `bat` (`batcat`), `tree`, `htop` |
+| Shell utilities | `jq`, `ripgrep` (`rg`), `fd-find` (`fdfind`), `bat` (`batcat`), `tree`, `htop`, `tmux` |
 
 ### R packages
 
