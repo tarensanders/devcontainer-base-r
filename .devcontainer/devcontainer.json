@@ -40,29 +40,41 @@
   },
   "customizations": {
     "vscode": {
+      // Grouped by theme, alphabetical within each theme. README.md lists these
+      // in the same order.
       "extensions": [
-        "anthropic.claude-code",
-        "REditorSupport.r",
-        "RDebugger.r-debugger",
+        // R and Quarto
         "Posit.air-vscode",
         "quarto.quarto",
-        "yzhang.markdown-all-in-one",
-        "DavidAnson.vscode-markdownlint",
-        "ms-python.python",
-        "charliermarsh.ruff",
-        "ms-toolsai.jupyter",
-        "christian-kohler.path-intellisense",
-        "mechatroner.rainbow-csv",
-        "tomoki1207.pdf",
-        "redhat.vscode-yaml",
-        "streetsidesoftware.code-spell-checker",
-        "streetsidesoftware.code-spell-checker-australian-english",
-        "streetsidesoftware.code-spell-checker-scientific-terms",
+        "RDebugger.r-debugger",
+        "REditorSupport.r",
+        // AI assistants
+        "anthropic.claude-code",
         "GitHub.copilot",
         "GitHub.copilot-chat",
+        // Git and GitHub
         "GitHub.vscode-pull-request-github",
+        // Python
+        "charliermarsh.ruff",
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        // Markdown
+        "darkriszty.markdown-table-prettify",
+        "DavidAnson.vscode-markdownlint",
+        "yzhang.markdown-all-in-one",
+        // Data and document formats
+        "janisdd.vscode-edit-csv",
+        "mechatroner.rainbow-csv",
+        "redhat.vscode-yaml",
+        "tomoki1207.pdf",
+        // Editor tooling
+        "adpyke.codesnap",
+        "christian-kohler.path-intellisense",
         "ms-azuretools.vscode-docker",
-        "janisdd.vscode-edit-csv"
+        "ms-vscode.live-server",
+        "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-australian-english",
+        "streetsidesoftware.code-spell-checker-scientific-terms"
       ],
       "settings": {
         "[r]": {

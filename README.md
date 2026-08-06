@@ -45,23 +45,35 @@ From GitHub: `milesmcbain/fnmate`, `milesmcbain/tflow`
 
 | Extension | Description |
 | --- | --- |
-| `REditorSupport.r` | R language support |
-| `RDebugger.r-debugger` | R debugger |
+| **R and Quarto** | |
 | `Posit.air-vscode` | Air R formatter (default R formatter) |
 | `quarto.quarto` | Quarto document support |
+| `RDebugger.r-debugger` | R debugger |
+| `REditorSupport.r` | R language support |
+| **AI assistants** | |
 | `anthropic.claude-code` | Claude Code |
 | `GitHub.copilot` + `copilot-chat` | GitHub Copilot |
+| **Git and GitHub** | |
 | `GitHub.vscode-pull-request-github` | GitHub Pull Requests |
-| `ms-python.python` + `charliermarsh.ruff` | Python support with Ruff formatter |
+| **Python** | |
+| `charliermarsh.ruff` | Ruff formatter and linter |
+| `ms-python.python` | Python language support |
 | `ms-toolsai.jupyter` | Jupyter notebooks |
-| `yzhang.markdown-all-in-one` + `DavidAnson.vscode-markdownlint` | Markdown editing and linting |
-| `streetsidesoftware.code-spell-checker` | Spell checker (Australian English + scientific terms) |
-| `redhat.vscode-yaml` | YAML support |
-| `mechatroner.rainbow-csv` | CSV highlighting |
+| **Markdown** | |
+| `darkriszty.markdown-table-prettify` | Markdown table formatting |
+| `DavidAnson.vscode-markdownlint` | Markdown linting |
+| `yzhang.markdown-all-in-one` | Markdown editing |
+| **Data and document formats** | |
 | `janisdd.vscode-edit-csv` | CSV table editor |
+| `mechatroner.rainbow-csv` | CSV highlighting |
+| `redhat.vscode-yaml` | YAML support |
 | `tomoki1207.pdf` | PDF viewer |
+| **Editor tooling** | |
+| `adpyke.codesnap` | Screenshots of selected code |
 | `christian-kohler.path-intellisense` | Path autocomplete |
 | `ms-azuretools.vscode-docker` | Docker support |
+| `ms-vscode.live-server` | Local preview server for HTML output |
+| `streetsidesoftware.code-spell-checker` | Spell checker (Australian English + scientific terms) |
 
 ## Consuming from a project
 
