@@ -7,7 +7,7 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
-      "packages": "broom,broom.helpers,broom.mixed,bslib,conflicted,crew,data.table,devtools,dotenv,DT,foreign,glue,gt,gtsummary,here,janitor,knitr,labelled,languageserver,lavaan,lintr,lme4,lmerTest,markdown,qs2,quarto,readxl,rlang,rmarkdown,rstudioapi,shiny,shinyWidgets,shinybusy,tarchetypes,targets,tidyverse,visNetwork,github::milesmcbain/fnmate,github::milesmcbain/tflow",
+      "packages": "arrow,broom,broom.helpers,broom.mixed,bslib,conflicted,crew,data.table,devtools,dotenv,DT,foreign,glue,gt,gtsummary,here,janitor,knitr,labelled,languageserver,lavaan,lintr,lme4,lmerTest,markdown,naniar,patchwork,qs2,quarto,readxl,rlang,rmarkdown,rstudioapi,shiny,shinyWidgets,shinybusy,tarchetypes,targets,tidyverse,visNetwork,github::milesmcbain/fnmate,github::milesmcbain/tflow",
       "installSystemRequirements": true,
       // "stable" forces a current pak before installing packages. The pak bundled
       // in the frozen r-ver:4.5 image is old enough that pak::pak() upgrades pak
@@ -21,9 +21,11 @@
     // Docker CLI talking to the host daemon via the mounted socket. The mount
     // is contributed by the feature's metadata and propagates downstream.
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    "ghcr.io/va-h/devcontainers-features/uv:1": {},
+    "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {},
     // Ubuntu installs fd-find as `fdfind` and bat as `batcat`.
     "ghcr.io/devcontainers-extra/features/apt-packages:1": {
-      "packages": "jq,ripgrep,fd-find,bat,tree,htop,tmux"
+      "packages": "jq,ripgrep,fd-find,bat,tree,htop,tmux,poppler-utils,librsvg2-bin,shellcheck"
     }
   },
   "overrideFeatureInstallOrder": [

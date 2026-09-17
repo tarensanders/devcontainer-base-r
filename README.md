@@ -33,11 +33,13 @@ R 4.5 via [`rocker/r-ver:4.5`](https://rocker-project.org/), which includes R, r
 | R history | Persistent R console history across container rebuilds |
 | GitHub CLI | `gh` for PRs, issues, releases, and API calls |
 | Docker (outside-of-docker) | `docker` CLI talking to the host daemon via the mounted socket |
-| Shell utilities | `jq`, `ripgrep` (`rg`), `fd-find` (`fdfind`), `bat` (`batcat`), `tree`, `htop`, `tmux` |
+| uv | Python package runner, e.g. `uv run --with openpyxl script.py` (system `pip install` is blocked on Ubuntu 24.04) |
+| DuckDB CLI | `duckdb` for querying parquet and CSV files from the shell |
+| Shell utilities | `jq`, `ripgrep` (`rg`), `fd-find` (`fdfind`), `bat` (`batcat`), `tree`, `htop`, `tmux`, `poppler-utils` (`pdftotext`, `pdftoppm`; lets Claude Code read PDFs), `librsvg2-bin` (`rsvg-convert`, for SVG to PNG), `shellcheck` |
 
 ### R packages
 
-Standard CRAN packages: `broom`, `broom.helpers`, `broom.mixed`, `bslib`, `conflicted`, `crew`, `data.table`, `devtools`, `dotenv`, `DT`, `foreign`, `glue`, `gt`, `gtsummary`, `here`, `janitor`, `knitr`, `labelled`, `languageserver`, `lavaan`, `lintr`, `lme4`, `lmerTest`, `markdown`, `qs2`, `quarto`, `readxl`, `rlang`, `rmarkdown`, `rstudioapi`, `shiny`, `shinyWidgets`, `shinybusy`, `tarchetypes`, `targets`, `tidyverse`, `visNetwork`
+Standard CRAN packages: `arrow`, `broom`, `broom.helpers`, `broom.mixed`, `bslib`, `conflicted`, `crew`, `data.table`, `devtools`, `dotenv`, `DT`, `foreign`, `glue`, `gt`, `gtsummary`, `here`, `janitor`, `knitr`, `labelled`, `languageserver`, `lavaan`, `lintr`, `lme4`, `lmerTest`, `markdown`, `naniar`, `patchwork`, `qs2`, `quarto`, `readxl`, `rlang`, `rmarkdown`, `rstudioapi`, `shiny`, `shinyWidgets`, `shinybusy`, `tarchetypes`, `targets`, `tidyverse`, `visNetwork`
 
 From GitHub: `milesmcbain/fnmate`, `milesmcbain/tflow`
 
@@ -152,10 +154,10 @@ For reproducible artefacts, pin by digest rather than `:latest`.
 - **The image is rebuilt weekly** (Mondays 00:00 UTC) and on every push to
   `main`. Pin by digest for reproducibility.
 - **A GitHub Release is created whenever a build changes tool or R package
-  versions** — tools being Claude Code, Quarto, gh, Node, R, radian, and
-  the docker CLI. The release lists the new digest and a diff of the
-  changes; system (Debian) package changes are included for context but do
-  not trigger a release on their own. Watch the repo's releases to be
+  versions** — tools being Claude Code, Quarto, gh, Node, R, radian, uv,
+  DuckDB, and the docker CLI. The release lists the new digest and a diff of
+  the changes; system (Debian) package changes are included for context but
+  do not trigger a release on their own. Watch the repo's releases to be
   notified when it's worth re-pulling the image.
   Weekly rebuilds where nothing changed still push a new digest (no-cache
   builds are not byte-reproducible) but create no release.

@@ -25,6 +25,8 @@ ver() {
   ver docker docker --version
   ver radian radian --version
   ver python3 python3 --version
+  ver uv uv --version
+  ver duckdb duckdb --version
   echo
   Rscript -e 'v <- installed.packages()[, c("Package", "Version")]; cat(sprintf("%s %s\n", v[, 1], v[, 2]))' | sort
 } > "$out/signal.txt"
