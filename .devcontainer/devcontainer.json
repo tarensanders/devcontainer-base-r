@@ -1,17 +1,14 @@
 {
   "name": "r-base",
-  // Pinned to 4.5: R 4.6 breaks the vscode-R session watcher, so htmlwidgets/plots
-  // fall back to xdg-open (REditorSupport/vscode-R#1696). Revert to :4 once
-  // vscode-R 3.0.0 is released as stable.
-  "image": "ghcr.io/rocker-org/devcontainer/r-ver:4.5",
+  "image": "ghcr.io/rocker-org/devcontainer/r-ver:4",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
-      "packages": "arrow,broom,broom.helpers,broom.mixed,bslib,conflicted,crew,data.table,devtools,dotenv,DT,foreign,glue,gt,gtsummary,here,janitor,knitr,labelled,languageserver,lavaan,lintr,lme4,lmerTest,markdown,naniar,patchwork,qs2,quarto,readxl,rlang,rmarkdown,rstudioapi,sess,shiny,shinyWidgets,shinybusy,tarchetypes,targets,tidyverse,visNetwork,github::milesmcbain/fnmate,github::milesmcbain/tflow",
+      "packages": "arrow,broom,broom.helpers,broom.mixed,bslib,conflicted,crew,data.table,devtools,dotenv,DT,foreign,glue,gt,gtsummary,here,janitor,knitr,labelled,languageserver,lavaan,lintr,lme4,lmerTest,markdown,naniar,patchwork,qs2,quarto,readxl,rlang,rmarkdown,rstudioapi,shiny,shinyWidgets,shinybusy,tarchetypes,targets,tidyverse,visNetwork,github::milesmcbain/fnmate,github::milesmcbain/tflow",
       "installSystemRequirements": true,
       // "stable" forces a current pak before installing packages. The pak bundled
-      // in the frozen r-ver:4.5 image is old enough that pak::pak() upgrades pak
-      // itself mid-run, corrupting its own private library and failing the build.
+      // in the rocker base image can lag far enough behind that pak::pak() upgrades
+      // pak itself mid-run, corrupting its own private library and failing the build.
       "pakVersion": "stable"
     },
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
@@ -94,7 +91,7 @@
         "[markdown]": {
           "editor.formatOnSave": true
         },
-        "r.rterm.linux": "/usr/local/bin/radian",
+        "r.consolePath": "/usr/local/bin/radian",
         "r.bracketedPaste": true,
         "cSpell.language": "en,en-AU",
         "files.eol": "\n"

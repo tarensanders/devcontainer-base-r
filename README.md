@@ -21,7 +21,7 @@ ghcr.io/tarensanders/r-base@sha256:<digest>
 
 ### Base image
 
-R 4.5 via [`rocker/r-ver:4.5`](https://rocker-project.org/), which includes R, radian, and common system libraries. Pinned to 4.5 because R 4.6 breaks the vscode-R session watcher ([REditorSupport/vscode-R#1696](https://github.com/REditorSupport/vscode-R/issues/1696)); revert to `:4` once vscode-R 3.0.0 is stable.
+R 4 via [`rocker/r-ver:4`](https://rocker-project.org/), which includes R, radian, and common system libraries.
 
 ### Features
 
@@ -39,7 +39,7 @@ R 4.5 via [`rocker/r-ver:4.5`](https://rocker-project.org/), which includes R, r
 
 ### R packages
 
-Standard CRAN packages: `arrow`, `broom`, `broom.helpers`, `broom.mixed`, `bslib`, `conflicted`, `crew`, `data.table`, `devtools`, `dotenv`, `DT`, `foreign`, `glue`, `gt`, `gtsummary`, `here`, `janitor`, `knitr`, `labelled`, `languageserver`, `lavaan`, `lintr`, `lme4`, `lmerTest`, `markdown`, `naniar`, `patchwork`, `qs2`, `quarto`, `readxl`, `rlang`, `rmarkdown`, `rstudioapi`, `sess`,`shiny`, `shinyWidgets`, `shinybusy`, `tarchetypes`, `targets`, `tidyverse`, `visNetwork`
+Standard CRAN packages: `arrow`, `broom`, `broom.helpers`, `broom.mixed`, `bslib`, `conflicted`, `crew`, `data.table`, `devtools`, `dotenv`, `DT`, `foreign`, `glue`, `gt`, `gtsummary`, `here`, `janitor`, `knitr`, `labelled`, `languageserver`, `lavaan`, `lintr`, `lme4`, `lmerTest`, `markdown`, `naniar`, `patchwork`, `qs2`, `quarto`, `readxl`, `rlang`, `rmarkdown`, `rstudioapi`, `shiny`, `shinyWidgets`, `shinybusy`, `tarchetypes`, `targets`, `tidyverse`, `visNetwork`
 
 From GitHub: `milesmcbain/fnmate`, `milesmcbain/tflow`
 
