@@ -19,7 +19,8 @@
     // is contributed by the feature's metadata and propagates downstream.
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
     "ghcr.io/va-h/devcontainers-features/uv:1": {},
-    "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {},
+    // Pinned: feature expects .zip assets, DuckDB 2.0.0 ships .tar.gz (404s).
+    "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": { "version": "1.5.6" },
     // Ubuntu installs fd-find as `fdfind` and bat as `batcat`.
     "ghcr.io/devcontainers-extra/features/apt-packages:1": {
       "packages": "jq,ripgrep,fd-find,bat,tree,htop,tmux,poppler-utils,librsvg2-bin,shellcheck"
