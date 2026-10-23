@@ -96,11 +96,46 @@ the base image's `devcontainer.metadata` label — do not repeat them here.
   "mounts": [
     "source=claude-code-config-${devcontainerId},target=/home/rstudio/.claude,type=volume",
     "source=gh-config-${devcontainerId},target=/home/rstudio/.gh,type=volume"
-    // Uncomment for projects that mount external data:
-    // ,"source=${localEnv:DATA_DIR},target=/workspace/data,type=bind"
+    // Uncomment for projects that mount external data (source must be an
+    // absolute host path):
+    // ,"source=${localEnv:HOME}/<data-dir>,target=/data,type=bind,readonly"
   ]
 }
 ```
+
+### Optional mount variations
+
+**External data.** Mount data read-only at `/data` so scripts (and Claude)
+can't modify or delete it. Use an absolute host path such as
+`${localEnv:HOME}/<data-dir>`. Avoid `${localEnv:SOME_VAR}` unless you're sure
+the variable is set in the environment that launches VS Code. If it isn't, it
+resolves to an empty string and the container fails to start.
+
+**Claude config in a host folder.** The named volume above needs no setup. If
+you'd rather browse Claude's transcripts, memory, and settings from the host,
+or keep them safe from `docker volume prune` and Docker Desktop/WSL resets,
+bind-mount a host folder instead. Create it first, and keep the `gh` volume:
+
+```jsonc
+"source=${localEnv:HOME}/.claude-<project>,target=/home/rstudio/.claude,type=bind"
+```
+
+**Workspace at the same path as on the host.** By default the project is
+mounted at `/workspaces/<repo>`. Mounting it at its host path is needed
+if you:
+
+- run `docker run -v $PWD:...` from inside the container. Docker-outside-of-docker
+  resolves bind-mount paths on the host, so the paths must match.
+- use git worktrees (including Claude Code's), whose `.git` files store
+  absolute paths.
+
+```jsonc
+"workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind,consistency=cached",
+"workspaceFolder": "${localWorkspaceFolder}"
+```
+
+This only works from Linux, macOS, or WSL hosts. Native Windows paths
+(`C:\...`) aren't valid inside the container.
 
 ## Updating an existing project to the latest image
 
