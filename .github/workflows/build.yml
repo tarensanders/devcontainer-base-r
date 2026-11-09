@@ -51,12 +51,32 @@ jobs:
       # step's old `docker pull` then re-tagged :latest back to the previous
       # registry image, so the diff saw nothing and the post-run step
       # re-published the OLD image, silently discarding the new build.
-      - uses: devcontainers/ci@v0.3
-        with:
+      #
+      # Up to three attempts: several features (docker-outside-of-docker,
+      # quarto-cli, ...) fetch GitHub release assets with `curl` lacking -f,
+      # so a transient 504 from GitHub is saved as the download and fails
+      # whichever feature hit it. Only the last attempt can fail the job.
+      - name: Build image
+        id: build1
+        uses: devcontainers/ci@v0.3
+        continue-on-error: true
+        with: &build-inputs
           imageName: ghcr.io/${{ github.repository_owner }}/r-base
           cacheFrom: ghcr.io/${{ github.repository_owner }}/r-base
           push: never
           noCache: ${{ github.event_name != 'push' }}
+
+      - name: Build image (retry 1)
+        id: build2
+        if: steps.build1.outcome == 'failure'
+        uses: devcontainers/ci@v0.3
+        continue-on-error: true
+        with: *build-inputs
+
+      - name: Build image (retry 2)
+        if: steps.build2.outcome == 'failure'
+        uses: devcontainers/ci@v0.3
+        with: *build-inputs
 
       - name: Push image
         run: docker push "$IMAGE:latest"
