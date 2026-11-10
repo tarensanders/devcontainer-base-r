@@ -94,7 +94,6 @@
         "[markdown]": {
           "editor.formatOnSave": true
         },
-        "r.consolePath": "/usr/local/bin/radian",
         "r.bracketedPaste": true,
         "cSpell.language": "en,en-AU",
         "files.eol": "\n"
