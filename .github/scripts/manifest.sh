@@ -23,7 +23,7 @@ ver() {
   ver quarto quarto --version
   ver gh gh --version
   ver docker docker --version
-  ver radian radian --version
+  ver arf arf --version
   ver python3 python3 --version
   ver uv uv --version
   ver duckdb duckdb --version

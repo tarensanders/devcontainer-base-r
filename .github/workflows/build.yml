@@ -32,7 +32,10 @@ jobs:
       # gh, Node, R, ...) plus installed R packages from the previously
       # published image and diff against the new one. Debian packages are
       # snapshotted too but only shown in release notes, never a trigger —
-      # see .github/scripts/manifest.sh.
+      # see .github/scripts/manifest.sh. The devcontainer.metadata label
+      # (VS Code settings/extensions, feature metadata) is also diffed, since
+      # changes there alter what downstream projects inherit without moving
+      # any tool or package version.
       - name: Snapshot published versions
         run: |
           mkdir -p /tmp/before /tmp/after
@@ -40,10 +43,13 @@ jobs:
             docker run --rm \
               -v "$PWD/.github/scripts:/scripts:ro" -v /tmp/before:/out \
               "$IMAGE:latest" bash /scripts/manifest.sh /out
+            docker inspect --format '{{ index .Config.Labels "devcontainer.metadata" }}' "$IMAGE:latest" \
+              | jq --sort-keys . > /tmp/before/metadata.json
             docker image rm "$IMAGE:latest"
           else
             : > /tmp/before/signal.txt
             : > /tmp/before/system.txt
+            : > /tmp/before/metadata.json
           fi
 
       # push: never — with push: always the action defers the push to its
@@ -89,12 +95,13 @@ jobs:
           docker run --rm \
             -v "$PWD/.github/scripts:/scripts:ro" -v /tmp/after:/out \
             "$IMAGE:latest" bash /scripts/manifest.sh /out
+          docker inspect --format '{{ index .Config.Labels "devcontainer.metadata" }}' "$IMAGE:latest" \
+            | jq --sort-keys . > /tmp/after/metadata.json
           echo "digest=$(docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE:latest")" >> "$GITHUB_OUTPUT"
-          if diff -u /tmp/before/signal.txt /tmp/after/signal.txt > /tmp/signal.diff; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
+          changed=false
+          diff -u /tmp/before/signal.txt /tmp/after/signal.txt > /tmp/signal.diff || changed=true
+          diff -u /tmp/before/metadata.json /tmp/after/metadata.json > /tmp/metadata.diff || changed=true
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
           diff -u /tmp/before/system.txt /tmp/after/system.txt > /tmp/system.diff || true
 
       # A release both notifies watchers and records the digest for pinning.
@@ -109,7 +116,12 @@ jobs:
             echo
             echo "Tool and R package changes since the previous build:"
             echo '```diff'
-            cat /tmp/signal.diff
+            if [ -s /tmp/signal.diff ]; then cat /tmp/signal.diff; else echo "none"; fi
+            echo '```'
+            echo
+            echo "Devcontainer metadata (VS Code settings/extensions, features) changes:"
+            echo '```diff'
+            if [ -s /tmp/metadata.diff ]; then cat /tmp/metadata.diff; else echo "none"; fi
             echo '```'
             echo
             echo '<details><summary>System (Debian) package changes</summary>'
