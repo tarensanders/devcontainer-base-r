@@ -4,7 +4,7 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
-      "packages": "arrow,broom,broom.helpers,broom.mixed,bslib,conflicted,crew,data.table,devtools,dotenv,DT,foreign,glue,gt,gtsummary,here,janitor,knitr,labelled,languageserver,lavaan,lintr,lme4,lmerTest,markdown,mdbr,naniar,patchwork,qs2,quarto,readxl,rlang,rmarkdown,rstudioapi,shiny,shinyWidgets,shinybusy,tarchetypes,targets,tidyverse,visNetwork,github::milesmcbain/fnmate,github::milesmcbain/tflow",
+      "packages": "arrow,broom,broom.helpers,broom.mixed,bslib,conflicted,crew,data.table,devtools,dotenv,DT,foreign,glmmTMB,glue,gt,gtsummary,here,janitor,knitr,labelled,languageserver,lavaan,lintr,lme4,lmerTest,markdown,meta,metafor,mdbr,mice,naniar,patchwork,qs2,quarto,readxl,rlang,rmarkdown,rstudioapi,shiny,shinyWidgets,shinybusy,tarchetypes,targets,tidyverse,visNetwork,github::milesmcbain/fnmate,github::milesmcbain/tflow",
       "installSystemRequirements": true,
       // "stable" forces a current pak before installing packages. The pak bundled
       // in the rocker base image can lag far enough behind that pak::pak() upgrades
